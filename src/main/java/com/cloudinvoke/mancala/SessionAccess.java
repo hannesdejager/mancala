@@ -13,9 +13,6 @@ import com.cloudinvoke.mancala.dto.Game;
 class SessionAccess {
 	
 	private static final String GAME_KEY = "game";
-
-	private SessionAccess() {
-	}
 	
 	static Game setGame(Request request, Game game) {
 		request.session(true) 
@@ -27,5 +24,7 @@ class SessionAccess {
 		return request.session().attribute(GAME_KEY);
 	}
 	
+	private SessionAccess() {
+	}
 
 }

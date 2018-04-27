@@ -1,4 +1,4 @@
-package com.cloudinvoke.mancala;
+package com.cloudinvoke.mancala.gamelogic;
 
 import org.junit.Test;
 

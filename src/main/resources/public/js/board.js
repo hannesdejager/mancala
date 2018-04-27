@@ -37,31 +37,36 @@ function makeMove(pitIndex) {
         }
     }).done(function(game, textStatus, jqXHR) {
         updateBoard(game);
-    }).fail(function(jqXHR, error, errorThrown) {  
-        if (jqXHR.status && jqXHR.status == 400) {
-            var msgObj = JSON.parse(jqXHR.responseText);
-            alert(msgObj.message); 
-        } else{
-            alert("Something went wrong: " + error);
-        }
-    });        
+    }).fail(handleFailedAjax);        
 }
 
-$(document).ready(function() {
+function handleFailedAjax(jqXHR, error, errorThrown) {
+    if (jqXHR.status && jqXHR.status == 400) {
+        var msgObj = JSON.parse(jqXHR.responseText);
+        alert(msgObj.message); 
+    } else{
+        alert("Something went wrong: " + error);
+    }
+}
 
+function loadGame() {
     $.ajax({
         url: "/",
         method: 'GET',
         dataType: 'game',
         accepts: {
-            game: 'application/vnd.cloudinvoke-mancala.game+text'
+            game: 'application/vnd.cloudinvoke-mancala.game+json'
         },
         converters: {
             'text game': jQuery.parseJSON
         }
-    }).done(function(data) {
-        alert('OK');
-    });
+    }).done(function(game, textStatus, jqXHR) {
+        updateBoard(game);
+    }).fail(handleFailedAjax);   
+}
+
+$(document).ready(function() {
+    loadGame();
 
     $('#pits button').click(function() {
             var pitIndex = $(this).attr('data-index');

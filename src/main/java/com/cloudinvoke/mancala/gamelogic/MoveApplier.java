@@ -28,6 +28,7 @@ public class MoveApplier {
 		tryCaptureStones();
 		setPlayer();
 		checkGameOver();
+		countUp();
 		return game;
 	}
 
@@ -79,6 +80,14 @@ public class MoveApplier {
 	private void checkGameOver() { 
 		game.gameOver = pitsInSectionEmpty(game.board.northSection) || pitsInSectionEmpty(game.board.southSection);
 	}
+	
+	private void countUp() {
+		if (game.gameOver) {
+			pitStonesToMancala(game.board.northSection);
+			pitStonesToMancala(game.board.southSection);
+			game.winnerPlayerId = game.board.northSection.mancala.stoneCount > game.board.southSection.mancala.stoneCount ? 0 : 1; 
+		}
+	}
 
 	private void setPlayer() {
 		if (!pitRingPtr.isMancala)
@@ -100,4 +109,10 @@ public class MoveApplier {
 		return empty;
 	}
 
+	private void pitStonesToMancala(BoardSection section) {
+		for (Pit pit : section.pits) {
+			section.mancala.stoneCount += pit.stoneCount;
+			pit.stoneCount = 0;
+		}
+	}
 }

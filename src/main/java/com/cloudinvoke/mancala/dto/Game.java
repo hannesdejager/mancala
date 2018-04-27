@@ -14,4 +14,5 @@ public class Game {
 	public int currentPlayerId;
 	public BoardSetup boardSetup;
 	public boolean gameOver;
+	public int winnerPlayerId;
 }

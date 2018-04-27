@@ -25,7 +25,7 @@ public class GameBuilder {
 	/**
 	 * Builds the default structure used when the game and board is initialized.
 	 * 
-	 * @return An instance of {@link Game} with all fiels populated and valid.
+	 * @return An instance of {@link Game} with all fields populated and valid.
 	 */
 	public static Game buildDefault() {
 		Game game = new Game();
@@ -43,6 +43,7 @@ public class GameBuilder {
 		game.playerB.id = 1;
 		game.currentPlayerId = 0;
 		game.gameOver = false;
+		game.winnerPlayerId = -1;		
 		return game;
 	}
 
@@ -63,4 +64,6 @@ public class GameBuilder {
 		return new Pit(DEFAULT_STONE_PER_PIT_COUNT);
 	}
 
+	private GameBuilder() {
+	}
 }

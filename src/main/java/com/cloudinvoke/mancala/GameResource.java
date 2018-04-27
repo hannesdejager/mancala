@@ -38,7 +38,7 @@ public class GameResource {
 	 * Basically a JSON representation of the {@link Game} structure
 	 */
 	public static final String GAME_JSON = "application/vnd.cloudinvoke-mancala.game+json";
-	
+		
 	/**
 	 * Registers the REST resource with the webserver.
 	 */
@@ -75,8 +75,7 @@ public class GameResource {
 					return new ErrorMessage("Invalid 'Move' object.");
 				}
 				Game game = SessionAccess.getGame(request);
-				Game modifiedGame = new MoveApplier().applyMove(game, move);
-				return modifiedGame;
+				return new MoveApplier().applyMove(game, move);
 			} catch (JsonSyntaxException | IllegalArgumentException e) {
 				response.status(Response.SC_BAD_REQUEST);
 				return new ErrorMessage(e.getMessage());
@@ -93,6 +92,9 @@ public class GameResource {
 		attributes.put("northPits", game.board.northSection.pits);
 		attributes.put("southPits", game.board.southSection.pits);
 		return new ModelAndView(attributes, "board.ftl");
+	}
+	
+	private GameResource() {
 	}
 	
 }
