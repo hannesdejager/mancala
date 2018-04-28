@@ -29,20 +29,20 @@ class PitRingBuilder {
 	 */
 	public static PitNode build(Game game) {
 		PitRingBuilder ring = new PitRingBuilder(game);
-		ring.build();
-		return ring.head;
+		return ring.build();
 	}
 	
-	private PitRingBuilder(Game game) {
+	public PitRingBuilder(Game game) {
 		if (game == null) 
 			throw new IllegalArgumentException("game can't be null.");
 		this.game = game;
 	}
 	
-	private void build() {
+	public PitNode build() {
 		buildSectionLists();
 		addCurrentPlayerMancala();
 		connectTailToHead();
+		return head;
 	}
 	
 	private void buildSectionLists() {

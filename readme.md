@@ -10,7 +10,7 @@ Warning: The UI looks ugly. No special attention was given here yet.
 
 The project was developed as an [apache maven](http://maven.apache.org/) project compiling to a ***fat jar*** for Java 8. 
 
-It uses a micro framework for web applications called [Spark](http://sparkjava.com/) to generate a single page web application based on HTML 5, CSS, Javascript and JQuery. 
+It uses a micro framework for web applications called [Spark](http://sparkjava.com/) to generate a single page web application based on HTML 5, CSS, Javascript and [jQuery](https://jquery.com). 
 
 
 
@@ -49,11 +49,18 @@ docker run -ti -p 8080:8080 mancala
 
 ### Source code overview
 
-The main class is `com.cloudinvoke.mancala.EntryPoint`. Web resources can be found under `src/main/resources`.
+The main class is `com.cloudinvoke.mancala.EntryPoint`. Web resources can be found under `src/main/resources`. The web layer is located in the main package `com.cloudinvoke.mancala` and business logic in `com.cloudinvoke.mancala.gamelogic`. Lastly `com.cloudinvoke.mancala.dto` contains the DTOs used to communicate with the web client.
+
+#### Public fields in DTOs
+
+Classes in the package `com.cloudinvoke.mancala.dto` have public fields. This may be frowned upon by some. I've chosen to deliberately do this after being inspired by Robert C. Martin's writeup on the difference between an object and a data structure in his book [Clean Code](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882).
+
+The DTO classes in this package represent data structures and not OO objects i.e. we don't aim for encapsulation. They contain zero business logic. Getters/setters are omitted where possible 
+to clarify intent (data structures not objects) and to make code more readable. Their use is not a violation of the [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter).
 
 #### On the use of REST vs MVC
 
-I've opted to use REST for the server API instead of the usual Model View Controller (MVC) pattern. This is not the most all-browser friendly choice but it allowed me to expiriment with HTTP verbs like PATCH from client side Javascript.
+I've opted to use REST for the server API instead of the usual Model View Controller (MVC) pattern. This is not the most all-browser friendly choice but it allowed me to expiriment with HTTP verbs like PATCH from client side Javascript and it also seemed simpler for this small project. I didn't want to add a big web framework. My fat jar clocks in under 5MB.
 
 Only one REST resource exist: A 'Game' resource on the root path (*../*).
 
@@ -83,3 +90,5 @@ mvn sonar:sonar
 ```
 
 Access Sonarqube on [http://localhost:9000]()
+
+Note: Sonarqube complains about my public fields but as mentioned, their use is deliberate.
