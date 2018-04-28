@@ -23,6 +23,8 @@
             </div>
             <div class='mancala' data-locality="east"><span class='player-name' data-player-index='1'>${playerB}</span><span class='stone-count'>${mancalaBCount}</span></div>
         </div>
+        
+        <p id="notification-message"></p>
 
     </body>
 </html>

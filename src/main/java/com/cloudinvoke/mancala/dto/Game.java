@@ -15,4 +15,13 @@ public class Game {
 	public BoardSetup boardSetup;
 	public boolean gameOver;
 	public int winnerPlayerId;
+	
+	@Override
+	public String toString() {
+		return new StringBuilder()
+			.append("Current Player: ").append(currentPlayerId)
+			.append(", Winner: ").append(winnerPlayerId)
+			.append(", Board: ").append(board)
+			.toString();
+	}
 }

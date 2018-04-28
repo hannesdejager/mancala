@@ -3,6 +3,9 @@ package com.cloudinvoke.mancala;
 import static spark.Spark.port;
 import static spark.Spark.staticFiles;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Where execution starts or 'Main' if you like.
  * 
@@ -11,7 +14,10 @@ import static spark.Spark.staticFiles;
  */
 public class EntryPoint {
 	
+	private static final Logger LOG = LoggerFactory.getLogger(EntryPoint.class);
+	
 	public static void main(String[] args) {
+		LOG.info("Starting Mancala.");
 		configureWebserver();
 		registerRestResources();
 	}
@@ -23,6 +29,7 @@ public class EntryPoint {
 	}
 	
 	private static void registerRestResources() {
+		LOG.info("Registering REST resources.");
 		GameResource.register();		
 	}
 

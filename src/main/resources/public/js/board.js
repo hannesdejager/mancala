@@ -19,6 +19,11 @@ function updateBoard(game) {
         $('#north-pits button').attr("disabled", "disabled");
         $('#south-pits button').removeAttr("disabled");
     }    
+
+    if (game.gameOver) {
+        var winnerName = $('.player-name[data-player-index='+game.winnerPlayerId+']').text();
+        $('#notification-message').text('GAME OVER: ' + winnerName + ' wins!');
+    }
 }
 
 function makeMove(pitIndex) {    

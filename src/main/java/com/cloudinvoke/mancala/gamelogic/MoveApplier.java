@@ -1,5 +1,8 @@
 package com.cloudinvoke.mancala.gamelogic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cloudinvoke.mancala.dto.BoardSection;
 import com.cloudinvoke.mancala.dto.Game;
 import com.cloudinvoke.mancala.dto.Move;
@@ -12,6 +15,8 @@ import com.cloudinvoke.mancala.dto.Pit;
  * @since 24 April 2018
  */
 public class MoveApplier {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(MoveApplier.class);
 
 	private Game game;
 	private Move move;
@@ -19,6 +24,7 @@ public class MoveApplier {
 	private PitNode pitRingPtr;
 	
 	public Game applyMove(Game game, Move move) {
+		LOG.info("Applying move {} to game {}", move, game);
 		this.game = game;
 		this.move = move;
 		validateArgs();		
@@ -29,6 +35,7 @@ public class MoveApplier {
 		setPlayer();
 		checkGameOver();
 		countUp();
+		LOG.info("Resulting game state: {}", game);
 		return game;
 	}
 
@@ -50,7 +57,7 @@ public class MoveApplier {
 	private void initPitRing() {
 		Pit startPit = boardSection.pits.get(move.pitIndex);
 		if (startPit.stoneCount == 0)
-			throw new IllegalArgumentException("Pit is empty");
+			throw new IllegalArgumentException("Pit is empty.");
 		pitRingPtr = PitRingBuilder.build(game);
 		while (pitRingPtr.pit != startPit) {
 			pitRingPtr = pitRingPtr.next;
@@ -60,6 +67,7 @@ public class MoveApplier {
 	private void distributeStones() {
 		Pit startPit = pitRingPtr.pit;
 		int stonesInHand = startPit.stoneCount;
+		LOG.info("Distributing {} stones", stonesInHand);
 		startPit.stoneCount = 0;
 		while (stonesInHand > 0) {
 			pitRingPtr = pitRingPtr.next;
@@ -70,6 +78,7 @@ public class MoveApplier {
 
 	private void tryCaptureStones() {
 		if (pitRingPtr.isCurrentPlayerOwned && !pitRingPtr.isMancala && pitRingPtr.pit.stoneCount == 1) {
+			LOG.info("Capturing {} stones.", pitRingPtr.opposite.pit.stoneCount);
 			boardSection.mancala.stoneCount += 1;
 			pitRingPtr.pit.stoneCount = 0;
 			boardSection.mancala.stoneCount += pitRingPtr.opposite.pit.stoneCount;
@@ -83,6 +92,7 @@ public class MoveApplier {
 	
 	private void countUp() {
 		if (game.gameOver) {
+			LOG.info("Gameover detected. Gathering leftover stones.");
 			pitStonesToMancala(game.board.northSection);
 			pitStonesToMancala(game.board.southSection);
 			game.winnerPlayerId = game.board.northSection.mancala.stoneCount > game.board.southSection.mancala.stoneCount ? 0 : 1; 
@@ -92,6 +102,8 @@ public class MoveApplier {
 	private void setPlayer() {
 		if (!pitRingPtr.isMancala)
 			otherPlayersTurn(game);
+		else
+			LOG.info("Player {} goes again.", game.currentPlayerId);
 	}
 	
 	private void otherPlayersTurn(Game game) {

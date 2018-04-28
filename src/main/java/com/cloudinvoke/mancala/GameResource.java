@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jetty.server.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import spark.ModelAndView;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -27,6 +29,8 @@ import com.google.gson.JsonSyntaxException;
  */
 public class GameResource {
 	
+	private static final Logger LOG = LoggerFactory.getLogger(GameResource.class);
+	
 	public static final String RESOURCE_PATH = "/";
 	
 	/**
@@ -43,13 +47,15 @@ public class GameResource {
 	 * Registers the REST resource with the webserver.
 	 */
 	public static void register() {
+		LOG.info("Registering REST resource 'Game' at {}", RESOURCE_PATH);
 		registerGameHtmlHandler();	
 		registerGetGameJsonHandler();	
 		registerMoveHandler();
 	}
 
 	private static void registerGameHtmlHandler() {
-		get(RESOURCE_PATH, GAME_HTML, (request, response) -> { 
+		get(RESOURCE_PATH, GAME_HTML, (request, response) -> {
+			LOG.info("Game HTML request");
 			Game game = SessionAccess.setGame(request, GameBuilder.buildDefault());
 			return gameHtmlView(game);
 		}, new FreeMarkerEngine());
@@ -58,6 +64,7 @@ public class GameResource {
 	private static void registerGetGameJsonHandler() {
 		Gson gson = new Gson();
 		get(RESOURCE_PATH, GAME_JSON, (request, response) -> {
+			LOG.info("Game JSON request");
 			response.type(GAME_JSON);
 			return SessionAccess.getGame(request);
 		}, gson::toJson);
@@ -69,7 +76,9 @@ public class GameResource {
 			response.type(GAME_JSON);
 			Move move = null;
 			try {
-				move = gson.fromJson(request.body(), Move.class);
+				String jsonText = request.body();
+				LOG.info("Move request: {}", jsonText);	
+				move = gson.fromJson(jsonText, Move.class);
 				if (move == null) {
 					response.status(Response.SC_BAD_REQUEST);
 					return new ErrorMessage("Invalid 'Move' object.");

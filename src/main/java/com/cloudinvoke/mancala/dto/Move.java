@@ -10,4 +10,9 @@ public class Move {
 	
 	/** The index of the Pit where the player takes stones from. */
 	public int pitIndex;
+	
+	@Override
+	public String toString() {
+		return String.valueOf(pitIndex);
+	}
 }

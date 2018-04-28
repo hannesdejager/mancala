@@ -62,3 +62,7 @@ body {
 .current-player {
     background-color: yellow;
 }
+
+#notification-message {
+    background-color: yellow;
+}

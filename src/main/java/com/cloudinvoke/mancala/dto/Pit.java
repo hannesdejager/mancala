@@ -21,4 +21,9 @@ public class Pit {
 		this.stoneCount = stoneCount;
 	}
 	
+	@Override
+	public String toString() {
+		return String.valueOf(stoneCount);
+	}
+	
 }
