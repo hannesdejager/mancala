@@ -10,6 +10,11 @@ import org.junit.Test;
 import com.cloudinvoke.mancala.dto.Game;
 
 public class PitRingBuilderTest {
+
+	@Test(expected = IllegalArgumentException.class)
+	public void nullGameThrowsException() {
+		PitRingBuilder.build(null);
+	}
 	
 	@Test
 	public void northThenMancalaThenSouthThenNorth() {
