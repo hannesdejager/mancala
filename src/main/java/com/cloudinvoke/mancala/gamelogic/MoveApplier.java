@@ -1,12 +1,8 @@
 package com.cloudinvoke.mancala.gamelogic;
 
+import com.cloudinvoke.mancala.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.cloudinvoke.mancala.dto.BoardSection;
-import com.cloudinvoke.mancala.dto.Game;
-import com.cloudinvoke.mancala.dto.Move;
-import com.cloudinvoke.mancala.dto.Pit;
 
 /**
  * Takes a {@link Game} and transform it to represent its state when the current player makes the specified {@link Move}.
@@ -51,7 +47,7 @@ public class MoveApplier {
 	}
 
 	private void findBoardSection() {
-		boardSection = game.currentPlayerId == 0 ? game.board.northSection : game.board.southSection;
+		boardSection = game.currentPlayerId == PlayerId.NORTH_PLAYER.getIntValue() ? game.board.northSection : game.board.southSection;
 	}
 
 	private void initPitRing() {
@@ -95,7 +91,7 @@ public class MoveApplier {
 			LOG.info("Gameover detected. Gathering leftover stones.");
 			pitStonesToMancala(game.board.northSection);
 			pitStonesToMancala(game.board.southSection);
-			game.winnerPlayerId = game.board.northSection.mancala.stoneCount > game.board.southSection.mancala.stoneCount ? 0 : 1; 
+			game.winnerPlayerId = game.board.northSection.mancala.stoneCount > game.board.southSection.mancala.stoneCount ? PlayerId.NORTH_PLAYER.getIntValue() : PlayerId.SOUTH_PLAYER.getIntValue();
 		}
 	}
 
@@ -107,7 +103,7 @@ public class MoveApplier {
 	}
 	
 	private void otherPlayersTurn(Game game) {
-		game.currentPlayerId = (game.currentPlayerId + 1) % 2;
+		game.currentPlayerId = PlayerId.valueOf(game.currentPlayerId).otherPlayer().getIntValue();
 	}
 
 	private boolean pitsInSectionEmpty(BoardSection section) {

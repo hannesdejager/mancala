@@ -9,4 +9,12 @@ package com.cloudinvoke.mancala.dto;
 public class Player {
 	public String name;
 	public int id;
+
+	public Player() {
+	}
+
+	public Player(PlayerId playerId) {
+		this.name = playerId.getDefaultName();
+		this.id = playerId.getIntValue();
+	}
 }

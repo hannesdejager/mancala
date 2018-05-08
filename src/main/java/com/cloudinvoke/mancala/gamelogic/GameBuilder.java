@@ -3,13 +3,7 @@ package com.cloudinvoke.mancala.gamelogic;
 import java.util.Arrays;
 import java.util.List;
 
-import com.cloudinvoke.mancala.dto.Board;
-import com.cloudinvoke.mancala.dto.BoardSection;
-import com.cloudinvoke.mancala.dto.BoardSetup;
-import com.cloudinvoke.mancala.dto.Game;
-import com.cloudinvoke.mancala.dto.Mancala;
-import com.cloudinvoke.mancala.dto.Pit;
-import com.cloudinvoke.mancala.dto.Player;
+import com.cloudinvoke.mancala.dto.*;
 
 /**
  * A helper class to build a {@link Game} data structure.
@@ -35,13 +29,9 @@ public class GameBuilder {
 		game.board = new Board();
 		game.board.northSection = defaultSection();
 		game.board.southSection = defaultSection();
-		game.playerA = new Player();
-		game.playerA.name = "North Player";
-		game.playerA.id = 0;
-		game.playerB = new Player();
-		game.playerB.name = "South Player";
-		game.playerB.id = 1;
-		game.currentPlayerId = 0;
+		game.playerA = new Player(PlayerId.NORTH_PLAYER);
+		game.playerB = new Player(PlayerId.SOUTH_PLAYER);
+		game.currentPlayerId = game.playerA.id;
 		game.gameOver = false;
 		game.winnerPlayerId = -1;		
 		return game;

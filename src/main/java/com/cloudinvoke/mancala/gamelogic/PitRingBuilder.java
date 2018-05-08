@@ -5,6 +5,7 @@ import java.util.List;
 import com.cloudinvoke.mancala.dto.BoardSection;
 import com.cloudinvoke.mancala.dto.Game;
 import com.cloudinvoke.mancala.dto.Pit;
+import com.cloudinvoke.mancala.dto.PlayerId;
 
 /**
  * Builds a circular linked list (or ring) of {@link PitNode}s representing the pits that the current player can use to distribute stones in. Links are also
@@ -56,7 +57,7 @@ class PitRingBuilder {
 			northCurrent.isMancala = false;
 			northCurrent.pit = northPits.get(i);
 			northCurrent.opposite = southCurrent;
-			northCurrent.isCurrentPlayerOwned = game.currentPlayerId == 0;
+			northCurrent.isCurrentPlayerOwned = game.currentPlayerId == PlayerId.NORTH_PLAYER.getIntValue();
 			southCurrent.isMancala = false;
 			southCurrent.pit = southPits.get(i);
 			southCurrent.opposite = northCurrent;
@@ -72,7 +73,7 @@ class PitRingBuilder {
 	}
 		
 	private void addCurrentPlayerMancala() {
-		if (game.currentPlayerId == 0) {
+		if (game.currentPlayerId == PlayerId.NORTH_PLAYER.getIntValue()) {
 			head = northHead;
 			PitNode northTail = southHead.opposite;
 			addMancala(northTail, game.board.northSection);
