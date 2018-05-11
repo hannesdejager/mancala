@@ -8,7 +8,7 @@ Warning: The UI looks ugly. No special attention was given here yet.
 
 ### Project overview
 
-The project was developed as an [apache maven](http://maven.apache.org/) project compiling to a ***fat jar*** for Java 8. 
+The project was developed as an [apache maven](http://maven.apache.org/) project compiling to a ***fat jar*** for Java i10. 
 
 It uses a micro framework for web applications called [Spark](http://sparkjava.com/) to generate a single page web application based on HTML 5, CSS, Javascript and [jQuery](https://jquery.com). 
 
@@ -25,7 +25,7 @@ This will compile the source code, run the unit tests and assemble a fat jar loc
 
 ### Running the game
 
-To run the game you will need the fat jar and Java 8 installed on your system. Then:
+To run the game you will need the fat jar and Java 10 installed on your system. Then:
 
 ```
 java -jar target/mancala-1.0-SNAPSHOT.jar
